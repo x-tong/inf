@@ -1,0 +1,41 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# C/C++ build
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+
+# Bazel
+bazel-*
+
+# Node
+node_modules/
+dist/
+
+# Logs and local outputs
+*.log
+tmp/
+out/
+artifacts/
+
+# Secrets and local env
+.env
+.env.*
+!.env.example
+
