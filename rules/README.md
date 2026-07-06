@@ -8,6 +8,7 @@
 - [10-git.md](./10-git.md)：Git、分支、提交和推送规则。
 - [20-ai-collaboration.md](./20-ai-collaboration.md)：AI 协作与 vibecoding 规则。
 - [30-docs.md](./30-docs.md)：文档和设计记录规则。
+- [40-build-test.md](./40-build-test.md)：xmake 构建、测试和基础开发流程规则。
 
 ## 使用方式
 
@@ -17,4 +18,3 @@
 2. `AGENTS.md`。
 3. `rules/` 下更具体的规则。
 4. 现有代码和文档风格。
-
