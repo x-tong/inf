@@ -4,7 +4,9 @@
 
 当前主项目：
 
-- [SLO-aware Context Execution Runtime](./docs/rag-aware-request-execution-runtime-project.md)
+- [Cache-aware Context Execution Runtime v1](./docs/projects/cache-aware-context-runtime-v1.md)
+
+这是工作标题，对外名称还没单独决定。旧的 RAG 项目书和 C++ 骨架设计已降为历史记录，不再作为实现依据。
 
 ## 项目定位
 

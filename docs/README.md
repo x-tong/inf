@@ -4,9 +4,19 @@
 
 ## 当前文档
 
+实现以这些文件为准：
+
+- [Cache-aware Context Execution Runtime v1](./projects/cache-aware-context-runtime-v1.md)（含学习计划）
+- [ADR 0002: 主问题改为 cache-aware context execution](./adr/0002-cache-aware-context-execution.md)
+- [ADR 0003: DecisionBackend 只提供信号](./adr/0003-decision-backend.md)
+- [ADR 0001: 初始化文档优先的 vibecoding 仓库框架](./adr/0001-initialize-vibecoding-repo-framework.md)
+
+## 历史文档
+
+正文保留，不再作为路径、成功标准或实施计划：
+
 - [SLO-aware Context Execution Runtime 项目书](./rag-aware-request-execution-runtime-project.md)
 - [C++ Runtime Skeleton v1 设计](./projects/cpp-runtime-skeleton-v1.md)
-- [ADR 0001: 初始化文档优先的 vibecoding 仓库框架](./adr/0001-initialize-vibecoding-repo-framework.md)
 
 ## 推荐目录
 
@@ -18,5 +28,3 @@ docs/
 ├── notes/            # 调研笔记
 └── projects/         # 项目级设计文档
 ```
-
-后续如果项目文档增多，可以把当前项目书迁移到 `docs/projects/`，并在这里保留索引链接。

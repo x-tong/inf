@@ -1,3 +1,8 @@
+> **状态：已被取代，仅作历史记录。**
+> 2026-09-23 起，实现以 [Cache-aware Context Execution Runtime v1](./cache-aware-context-runtime-v1.md) 为准。
+> 决策见 [ADR 0002](../adr/0002-cache-aware-context-execution.md) 与 [ADR 0003](../adr/0003-decision-backend.md)。
+> 本文中的检索 / rerank 路径、fast / balanced / quality profile，以及 `embedding_latency_ms`，都不再作为 v1 规格。
+
 # C++ Runtime Skeleton v1 设计
 
 ## 背景

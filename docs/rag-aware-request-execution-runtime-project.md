@@ -1,3 +1,8 @@
+> **状态：已被取代，仅作历史记录。**
+> 2026-09-23 起，实现以 [Cache-aware Context Execution Runtime v1](./projects/cache-aware-context-runtime-v1.md) 为准。
+> 决策见 [ADR 0002](./adr/0002-cache-aware-context-execution.md) 与 [ADR 0003](./adr/0003-decision-backend.md)。
+> 本文不再作为 v1 的路径、成功标准或实施计划。
+
 # SLO-aware Context Execution Runtime 项目书
 
 ## 1. 项目定位
