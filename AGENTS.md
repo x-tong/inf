@@ -23,7 +23,7 @@
 
 例如：
 初始化 vibecoding 仓库框架
-补充 SLO-aware runtime 项目规划
+补充 cache-aware runtime 项目规格
 修正 benchmark 文档结构
 ```
 

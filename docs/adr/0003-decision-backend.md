@@ -10,7 +10,9 @@ Accepted
 
 ## 背景
 
-旧设计把 `ExecutionRouter` 和 `RetrievalConfidenceEstimator` 写成两个会做判断的核心模块。2026-09-15 TypeSafe 公开的 Jev 是 System One 决策模型：输入 state 和封闭问题，输出带概率的类型化答案，不生成文本，也不执行预算、packing 或 trace。它不是 runtime。
+路由要同时看预算和前缀是否还能复用。这两件事是确定性政策，必须留在 runtime 里。
+
+Jev（TypeSafe，2026-09-15 公开）是 System One 决策模型：输入 state 和封闭问题，输出带概率的类型化答案。它不生成文本，也不执行预算、packing 或 trace。它不是 runtime。
 
 若把 Router 本身换成可插拔模型，SLO、前缀不变量和 fallback 会离开本仓库拥有的代码。若在 v1 必经路径上调用 Jev，作品会变成接入演示，并且决策延迟（厂商报告约 70–500ms）会和要测量的 TTFT 混在一起。
 
@@ -46,7 +48,7 @@ override_reason         budget | low_confidence | backend_error | prefix_invaria
 
 Jev 或同类模型只允许作为同接口的可选实现，不在 v1 的 10 周必经路径上。适配器负责把上述两个问题翻译成厂商 API，再映射回 `Decision`。trace 必须钉死模型版本，禁止使用会漂移的 `latest` 别名。第 10 周验收通过之前不实现该适配器。
 
-`RetrievalConfidenceEstimator` 撤销，不保留空接口。检索分差不再是 v1 信号。
+v1 没有第三个信号，也不用检索分数做判断。
 
 ## 原因
 

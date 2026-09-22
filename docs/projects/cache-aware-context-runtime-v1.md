@@ -4,16 +4,12 @@
 
 本文件是实现依据。工作标题，对外名称未最终确认。
 
-取代：
+配套决策：
 
-- [ADR 0002](../adr/0002-cache-aware-context-execution.md) 取代旧项目书中的主路径和成功标准。
-- [ADR 0003](../adr/0003-decision-backend.md) 规定 Router 与 DecisionBackend 的边界。
-- 下文学习计划取代此前未落盘的 14 周草稿。
+- [ADR 0002](../adr/0002-cache-aware-context-execution.md)：v1 主问题和执行路径。
+- [ADR 0003](../adr/0003-decision-backend.md)：Router 与 DecisionBackend 的边界。
 
-历史文档，不要按它们实现：
-
-- `docs/rag-aware-request-execution-runtime-project.md`
-- `docs/projects/cpp-runtime-skeleton-v1.md`
+学习计划在本文末尾，不另建文档。
 
 ## 背景
 
@@ -36,8 +32,8 @@ v1 用可复现实验衡量这件事。没有稳定 GPU。TTFT 的绝对毫秒�
 v1 不做：
 
 - Agent 循环、工具沙箱、记忆系统。
-- 向量库、embedding、rerank、暴力扫描、SIMD、多线程 topK。
-- FAISS、LangChain、LlamaIndex 对照。
+- 检索核、向量库、embedding、rerank、SIMD。
+- 与外部 RAG 框架或向量库做对照。
 - 推理引擎、Attention kernel、KV scheduler、PD 分离、投机解码、Beam Search。
 - 自研决策模型，或在前 10 周调用 Jev。
 - 用模型做摘要。compaction 必须是确定性字符串变换。
@@ -248,8 +244,6 @@ max_context_tokens
 latency_budget_ms
 ```
 
-不设 `embedding_latency_ms`。没有这个阶段。
-
 ## 错误与 fallback
 
 错误用 `std::expected<T, RuntimeError>` 穿出 runtime 边界。
@@ -271,7 +265,7 @@ latency_budget_ms
 
 ## 配置
 
-三个预算档，不是 RAG profile：
+三个预算档：
 
 - `configs/tight.yaml`
 - `configs/default.yaml`
@@ -351,7 +345,7 @@ context_runtime_tests
 runtime_cli
 ```
 
-不创建 VectorStore、Scorer、TopK、Retriever、Reranker、ConfidenceEstimator。
+不创建检索、精排或向量类型。
 
 ## 风险
 
@@ -362,7 +356,6 @@ runtime_cli
 | 对照臂被悄悄加上截断，拉平差异 | 对照臂允许超预算并必须留下 `budget_exceeded` |
 | Jev 提前进入必经路径 | 前 10 周不添加客户端；接口测试用注入的 Decision |
 | 估计 token 与厂商 token 不一致 | 字段区分 `estimate` 和 `provider`；结论写明用的是哪一种 |
-| 旧项目书被继续当成路线 | 文首已标历史；冲突时以 ADR 0002 和本文件为准 |
 
 ## 学习计划
 
@@ -370,12 +363,12 @@ runtime_cli
 
 | 周 | 要搞懂什么 | 学会的证据 | 不学什么 |
 |---|---|---|---|
-| 1 | 边界：拥有进模型前的组装、预算和 trace；不拥有引擎、向量库、Agent 循环、Jev | 本文件、ADR 0002、ADR 0003。不看旧项目书能讲清 v1 路径 | 不读推理引擎源码 |
+| 1 | 边界：拥有进模型前的组装、预算和 trace；不拥有引擎、向量库、Agent 循环、Jev | 本文件、ADR 0002、ADR 0003。能讲清 v1 路径 | 不读推理引擎源码 |
 | 2 | 请求如何穿过 Runtime：Budget、规则 Decision、MockBackend、一条 JSONL | `xmake` 与测试、CLI 在无 key、无 GPU 下跑通 | 不学 packing 策略 |
 | 3 | Prefill 算力密集，Decode 带宽密集；KV cache；prefix cache 要求前缀字节不变。mock 公式只保证排序 | `docs/notes/serving-literacy.md`，以及改写前缀比追加更慢的单测 | 不读 nano-vLLM，不写 kernel，不做 PD 分离和投机解码 |
 | 4 | 前缀稳定是字节级的。同批共享前缀在这里就是：追加不改前缀，改一个字节就整段失效 | Packer 单测：哈希不变，或 `prefix_changed` | 不学检索和 SIMD |
 | 5 | 四条策略的代价。规则路由只消费两个信号 | 同一 fixture 的四条 trace，数字分开 | 不学 Jev，不学 learned router |
-| 6 | 实验怎样才算数：固定 fixture、原始 JSONL、复现命令；P95 来自负载混合 | `benchmarks/` 中一条命令打出报告 | 不学 LangChain，不做 LLM-as-judge |
+| 6 | 实验怎样才算数：固定 fixture、原始 JSONL、复现命令；P95 来自负载混合 | `benchmarks/` 中一条命令打出报告 | 不做外部框架对照，不做 LLM-as-judge |
 | 7 | 厂商 cached tokens 如何归一；前缀要多长才会命中 | 录制响应的解析测试。有 key 才补一小段真跑 | 不部署 vLLM，不实现服务端路由 |
 | 8 | SLO 是约束。预算不够就覆盖路由，并写 `override_reason` | 紧预算 / 松预算两臂的测试 | 不做 HTTP 服务，不接 Jev |
 | 9 | 用代码里存在的数字说明为何停在这一层 | README、简历三条、口述稿与 benchmark 一致 | 不做新功能 |
